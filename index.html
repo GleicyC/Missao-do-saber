@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missão do Saber</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+    section {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #004080;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #004080;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Missão do Saber</h1>
+    <p>Aventura Educacional Acessível para Crianças com Deficiência Visual</p>
+    <button onclick="lerTexto('Bem-vindo à Missão do Saber!')">Ler a tela</button>
+  </header>
+  <main>
+    <section id="inicio">
+      <h2>Página Inicial</h2>
+      <button onclick="lerTexto('Iniciando a Missão!')">Iniciar Missão</button>
+      <button onclick="lerTexto('Este projeto busca a inclusão de crianças com deficiência visual no aprendizado')">Sobre o Projeto</button>
+      <button onclick="lerTexto('Curiosidades sobre ciências, português e matemática')">Dicas e Curiosidades</button>
+      <button onclick="lerTexto('Formulário de opinião disponível')">Deixe sua Opinião</button>
+    </section>
+
+    <section id="personagem">
+      <h2>Escolha seu Personagem</h2>
+      <p>Ouça as descrições e escolha com quem você vai embarcar nessa missão!</p>
+      <button onclick="lerTexto('Você escolheu Sofia, a cientista curiosa!')">Jogar com Sofia</button>
+      <button onclick="lerTexto('Você escolheu Leo, o aventureiro leitor!')">Jogar com Leo</button>
+    </section>
+
+    <section id="missao1">
+      <h2>Missão 1 – Enigma Matemático</h2>
+      <p>Tenho quatro patas, mas não corro. O que sou?</p>
+      <button onclick="responder('errado')">Um cachorro</button>
+      <button onclick="responder('certo')">Uma cadeira</button>
+      <button onclick="responder('errado')">Um carro</button>
+    </section>
+
+    <section id="missao2">
+      <h2>Missão 2 – Desafio de Língua Portuguesa</h2>
+      <p>Complete: C _ A _ L _ O</p>
+      <button onclick="responder('errado')">Letra E</button>
+      <button onclick="responder('certo')">Letra I</button>
+      <button onclick="responder('errado')">Letra U</button>
+    </section>
+
+    <section id="missaoFinal">
+      <h2>Missão Final – Quiz Misto</h2>
+      <p>Qual dessas palavras é um verbo?</p>
+      <button onclick="responder('certo')">Correr</button>
+      <button onclick="responder('errado')">Bola</button>
+      <button onclick="responder('errado')">Azul</button>
+    </section>
+
+    <section id="encerramento">
+      <h2>Encerramento</h2>
+      <p>Parabéns! Você concluiu a Missão do Saber! Você é um verdadeiro aventureiro do conhecimento!</p>
+      <button onclick="lerTexto('Parabéns! Você concluiu a Missão do Saber!')">Jogar Novamente</button>
+    </section>
+  </main>
+
+  <audio id="acerto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_a5db7f93fc.mp3" preload="auto"></audio>
+  <audio id="erro" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_912d5f8cf2.mp3" preload="auto"></audio>
+
+  <script>
+    function lerTexto(texto) {
+      const synth = window.speechSynthesis;
+      const utter = new SpeechSynthesisUtterance(texto);
+      utter.lang = 'pt-BR';
+      synth.speak(utter);
+    }
+
+    function responder(tipo) {
+      const audio = document.getElementById(tipo);
+      audio.play();
+      if (tipo === 'certo') {
+        lerTexto('Parabéns! Você acertou!');
+      } else {
+        lerTexto('Tente novamente!');
+      }
+    }
+  </script>
+</body>
+</html>
