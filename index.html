@@ -1,122 +1,373 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Missão do Saber</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
       margin: 0;
       padding: 0;
+      color: #333;
     }
+
     header {
       background-color: #004080;
       color: white;
-      padding: 20px;
+      padding: 25px 10px;
       text-align: center;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      margin: 6px 0 15px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
     main {
       padding: 20px;
+      max-width: 900px;
+      margin: auto;
     }
+
     section {
       background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 25px 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      display: none;
+      animation: fadeIn 0.6s ease forwards;
     }
+
+    section.active {
+      display: block;
+    }
+
     h2 {
       color: #004080;
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 2rem;
     }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
     button {
-      padding: 10px 20px;
-      margin: 5px;
+      padding: 12px 26px;
+      margin: 8px;
       border: none;
-      border-radius: 5px;
-      background-color: #004080;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: #007acc;
       color: white;
       cursor: pointer;
+      box-shadow: 0 4px 8px #007accaa;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      min-width: 140px;
+      user-select: none;
     }
-    button:hover {
-      background-color: #003366;
+
+    button:hover,
+    button:focus {
+      background-color: #005f99;
+      box-shadow: 0 6px 12px #005f9988;
+      outline: none;
     }
+
+    .character-container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 10px;
+    }
+
+    .character {
+      cursor: pointer;
+      border-radius: 15px;
+      padding: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: linear-gradient(135deg, #7dd7fc, #1a9bd8);
+      box-shadow: 0 6px 15px #1a9bd8cc;
+      width: 160px;
+      text-align: center;
+      color: white;
+      user-select: none;
+    }
+
+    .character svg {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+      pointer-events: none;
+    }
+
+    .character:hover,
+    .character.selected {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px #ff9500cc;
+      background: linear-gradient(135deg, #ffb347, #ffcc33);
+      color: #3a1c00;
+    }
+
+    .nav-buttons {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
   </style>
 </head>
 <body>
   <header>
     <h1>Missão do Saber</h1>
     <p>Aventura Educacional Acessível para Crianças com Deficiência Visual</p>
-    <button onclick="lerTexto('Bem-vindo à Missão do Saber!')">Ler a tela</button>
+    <button onclick="lerTexto('Bem-vindo à Missão do Saber!')">🔊 Ler a tela</button>
   </header>
+
   <main>
-    <section id="inicio">
+    <!-- Tela Inicial -->
+    <section id="inicio" class="active" aria-label="Página Inicial">
       <h2>Página Inicial</h2>
-      <button onclick="lerTexto('Iniciando a Missão!')">Iniciar Missão</button>
-      <button onclick="lerTexto('Este projeto busca a inclusão de crianças com deficiência visual no aprendizado')">Sobre o Projeto</button>
-      <button onclick="lerTexto('Curiosidades sobre ciências, português e matemática')">Dicas e Curiosidades</button>
-      <button onclick="lerTexto('Formulário de opinião disponível')">Deixe sua Opinião</button>
+      <div class="nav-buttons">
+        <button onclick="abrirSecao('personagem')">Iniciar Missão</button>
+        <button onclick="lerTexto('Este projeto busca a inclusão de crianças com deficiência visual no aprendizado')">Sobre o Projeto</button>
+        <button onclick="lerTexto('Curiosidades sobre ciências, português e matemática')">Dicas e Curiosidades</button>
+        <button onclick="lerTexto('Formulário de opinião disponível')">Deixe sua Opinião</button>
+      </div>
     </section>
 
-    <section id="personagem">
+    <!-- Escolha de Personagem -->
+    <section id="personagem" aria-label="Escolha seu personagem">
       <h2>Escolha seu Personagem</h2>
       <p>Ouça as descrições e escolha com quem você vai embarcar nessa missão!</p>
-      <button onclick="lerTexto('Você escolheu Sofia, a cientista curiosa!')">Jogar com Sofia</button>
-      <button onclick="lerTexto('Você escolheu Leo, o aventureiro leitor!')">Jogar com Leo</button>
+      <div class="character-container">
+        <div tabindex="0" class="character" id="sofia" role="button" aria-pressed="false" onclick="escolherPersonagem('Sofia', this)" onkeypress="if(event.key==='Enter'){escolherPersonagem('Sofia', this)}">
+          <!-- SVG Menina -->
+          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <circle cx="32" cy="20" r="12" fill="#fcd7b0" />
+            <path d="M20 38c0 7 24 7 24 0v12H20V38z" fill="#e58a3a" />
+            <circle cx="24" cy="15" r="2" fill="#5d382d" />
+            <circle cx="40" cy="15" r="2" fill="#5d382d" />
+            <path d="M18 20c0 5 28 5 28 0" stroke="#5d382d" stroke-width="3" fill="none" />
+          </svg>
+          Sofia, a cientista curiosa
+        </div>
+        <div tabindex="0" class="character" id="leo" role="button" aria-pressed="false" onclick="escolherPersonagem('Leo', this)" onkeypress="if(event.key==='Enter'){escolherPersonagem('Leo', this)}">
+          <!-- SVG Menino -->
+          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <circle cx="32" cy="20" r="12" fill="#fcd7b0" />
+            <path d="M22 38c0 7 20 7 20 0v12H22V38z" fill="#4b9cd3" />
+            <circle cx="26" cy="15" r="2" fill="#362c23" />
+            <circle cx="38" cy="15" r="2" fill="#362c23" />
+            <path d="M20 20c0 5 24 5 24 0" stroke="#362c23" stroke-width="3" fill="none" />
+          </svg>
+          Leo, o aventureiro leitor
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <button id="btnStartGame" disabled onclick="abrirSecao('missao1')">Começar Missão</button>
+        <button onclick="abrirSecao('inicio')">Voltar</button>
+      </div>
     </section>
 
-    <section id="missao1">
+    <!-- Missão 1 -->
+    <section id="missao1" aria-label="Missão 1 – Enigma Matemático">
       <h2>Missão 1 – Enigma Matemático</h2>
       <p>Tenho quatro patas, mas não corro. O que sou?</p>
-      <button onclick="responder('errado')">Um cachorro</button>
-      <button onclick="responder('certo')">Uma cadeira</button>
-      <button onclick="responder('errado')">Um carro</button>
+      <div class="nav-buttons">
+        <button onclick="responder('errado', 'missao1')">Um cachorro</button>
+        <button onclick="responder('certo', 'missao1')">Uma cadeira</button>
+        <button onclick="responder('errado', 'missao1')">Um carro</button>
+      </div>
+      <div class="nav-buttons" id="btnNextMissao1" style="display:none;">
+        <button onclick="abrirSecao('missao2')">Próxima Missão</button>
+      </div>
     </section>
 
-    <section id="missao2">
+    <!-- Missão 2 -->
+    <section id="missao2" aria-label="Missão 2 – Desafio de Língua Portuguesa">
       <h2>Missão 2 – Desafio de Língua Portuguesa</h2>
-      <p>Complete: C _ A _ L _ O</p>
-      <button onclick="responder('errado')">Letra E</button>
-      <button onclick="responder('certo')">Letra I</button>
-      <button onclick="responder('errado')">Letra U</button>
+      <p>Complete: C A V A L _ </p>
+      <div class="nav-buttons">
+        <button onclick="responder('errado', 'missao2')">Letra E</button>
+        <button onclick="responder('certo', 'missao2')">Letra O</button>
+        <button onclick="responder('errado', 'missao2')">Letra I</button>
+      </div>
+      <div class="nav-buttons" id="btnNextMissao2" style="display:none;">
+        <button onclick="abrirSecao('missao3')">Próxima Missão</button>
+      </div>
     </section>
 
-    <section id="missaoFinal">
+    <!-- Missão 3 -->
+    <section id="missao3" aria-label="Missão 3 – Conhecimentos Gerais">
+      <h2>Missão 3 – Conhecimentos Gerais</h2>
+      <p>Qual planeta é conhecido como Planeta Vermelho?</p>
+      <div class="nav-buttons">
+        <button onclick="responder('errado', 'missao3')">Júpiter</button>
+        <button onclick="responder('certo', 'missao3')">Marte</button>
+        <button onclick="responder('errado', 'missao3')">Vênus</button>
+      </div>
+      <div class="nav-buttons" id="btnNextMissao3" style="display:none;">
+        <button onclick="abrirSecao('missaoFinal')">Missão Final</button>
+      </div>
+    </section>
+
+    <!-- Missão Final -->
+    <section id="missaoFinal" aria-label="Missão Final – Quiz Misto">
       <h2>Missão Final – Quiz Misto</h2>
       <p>Qual dessas palavras é um verbo?</p>
-      <button onclick="responder('certo')">Correr</button>
-      <button onclick="responder('errado')">Bola</button>
-      <button onclick="responder('errado')">Azul</button>
+      <div class="nav-buttons">
+        <button onclick="responder('certo', 'missaoFinal')">Correr</button>
+        <button onclick="responder('errado', 'missaoFinal')">Bola</button>
+        <button onclick="responder('errado', 'missaoFinal')">Azul</button>
+      </div>
+      <div class="nav-buttons" id="btnNextMissaoFinal" style="display:none;">
+        <button onclick="abrirSecao('encerramento')">Finalizar Missão</button>
+      </div>
     </section>
 
-    <section id="encerramento">
-      <h2>Encerramento</h2>
-      <p>Parabéns! Você concluiu a Missão do Saber! Você é um verdadeiro aventureiro do conhecimento!</p>
-      <button onclick="lerTexto('Parabéns! Você concluiu a Missão do Saber!')">Jogar Novamente</button>
+    <!-- Encerramento -->
+    <section id="encerramento" aria-label="Encerramento">
+      <h2>Parabéns!</h2>
+      <p>Você concluiu a Missão do Saber! Você é um verdadeiro aventureiro do conhecimento!</p>
+      <div class="nav-buttons">
+        <button onclick="reiniciar()">Jogar Novamente</button>
+      </div>
     </section>
   </main>
 
+  <!-- Sons -->
   <audio id="acerto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_a5db7f93fc.mp3" preload="auto"></audio>
   <audio id="erro" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_912d5f8cf2.mp3" preload="auto"></audio>
 
   <script>
+    let personagemEscolhido = null;
+
     function lerTexto(texto) {
       const synth = window.speechSynthesis;
+      synth.cancel(); // cancela qualquer fala anterior
       const utter = new SpeechSynthesisUtterance(texto);
       utter.lang = 'pt-BR';
       synth.speak(utter);
     }
 
-    function responder(tipo) {
-      const audio = document.getElementById(tipo);
+    function abrirSecao(id) {
+      // Esconde todas as seções
+      document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+
+      // Exibe a seção selecionada
+      const secao = document.getElementById(id);
+      secao.classList.add('active');
+
+      // Ler o título da seção
+      lerTexto(secao.querySelector('h2').textContent + ". " + (secao.querySelector('p') ? secao.querySelector('p').textContent : ''));
+
+      // Reseta botões de próximas fases e respostas
+      if (id.startsWith('missao')) {
+        // Resetar botões next
+        const btnNext = secao.querySelector('[id^=btnNextMissao]');
+        if (btnNext) btnNext.style.display = 'none';
+
+        // Reativa os botões de respostas
+        secao.querySelectorAll('button').forEach(btn => {
+          if (btn.textContent.toLowerCase().includes('próxima') || btn.textContent.toLowerCase().includes('missão final') || btn.textContent.toLowerCase().includes('finalizar')) return;
+          btn.disabled = false;
+        });
+      }
+    }
+
+    function escolherPersonagem(nome, elemento) {
+      personagemEscolhido = nome;
+
+      // Marca o selecionado
+      document.querySelectorAll('.character').forEach(el => {
+        el.classList.remove('selected');
+        el.setAttribute('aria-pressed', 'false');
+      });
+      elemento.classList.add('selected');
+      elemento.setAttribute('aria-pressed', 'true');
+
+      // Ativa botão começar
+      document.getElementById('btnStartGame').disabled = false;
+
+      lerTexto(`Você escolheu ${nome}! Vamos começar a missão!`);
+    }
+
+    function responder(tipo, missao) {
+      const audio = document.getElementById(tipo === 'certo' ? 'acerto' : 'erro');
+      audio.currentTime = 0;
       audio.play();
+
       if (tipo === 'certo') {
         lerTexto('Parabéns! Você acertou!');
+        desativarBotoes(missao);
+        mostrarProximo(missao);
       } else {
         lerTexto('Tente novamente!');
       }
     }
+
+    function desativarBotoes(missao) {
+      const secao = document.getElementById(missao);
+      secao.querySelectorAll('button').forEach(btn => {
+        if (!btn.textContent.toLowerCase().includes('próxima') && !btn.textContent.toLowerCase().includes('finalizar')) {
+          btn.disabled = true;
+        }
+      });
+    }
+
+    function mostrarProximo(missao) {
+      const btnNext = document.querySelector(`#${missao} > .nav-buttons[id^=btnNextMissao${missao.replace('missao','')}]`) 
+        || document.getElementById(`btnNext${missao.charAt(0).toUpperCase() + missao.slice(1)}`);
+      // Ou procura pelo botão next dentro da seção
+      const btnNextAlt = document.getElementById(`btnNext${missao.charAt(0).toUpperCase() + missao.slice(1)}`);
+
+      // Se não achar pelo padrão, tenta pelo id direto
+      let btn = btnNext || btnNextAlt;
+      if (!btn) {
+        // fallback: buscar na seção btnNextMissaoX
+        const nextId = 'btnNext' + missao.charAt(0).toUpperCase() + missao.slice(1);
+        btn = document.getElementById(nextId);
+      }
+
+      if (btn) {
+        btn.style.display = 'block';
+      }
+    }
+
+    function reiniciar() {
+      personagemEscolhido = null;
+      // Remove seleção personagem
+      document.querySelectorAll('.character').forEach(el => {
+        el.classList.remove('selected');
+        el.setAttribute('aria-pressed', 'false');
+      });
+      document.getElementById('btnStartGame').disabled = true;
+      abrirSecao('inicio');
+    }
   </script>
 </body>
 </html>
+
